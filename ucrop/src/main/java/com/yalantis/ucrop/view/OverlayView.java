@@ -72,7 +72,7 @@ public class OverlayView extends View {
     private int mCropRectCornerTouchAreaLineLength;
 
     private int mCircleBorderColor = Color.WHITE;
-    private float mCircleBorderWidth;
+    private float mCircleBorderWidth = 4f;
     private Paint mCircleBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     private OverlayViewChangeListener mCallback;
@@ -85,8 +85,8 @@ public class OverlayView extends View {
         mCropRectCornerTouchAreaLineLength = getResources().getDimensionPixelSize(R.dimen.ucrop_default_crop_rect_corner_touch_area_line_length);
 
         // Recalculating 1dp into pixels for mCircleBorderWidth
-        mCircleBorderWidth = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 1f, getResources().getDisplayMetrics());
+//        mCircleBorderWidth = TypedValue.applyDimension(
+//                TypedValue.COMPLEX_UNIT_DIP, 1f, getResources().getDisplayMetrics());
     }
 
     public OverlayView(Context context) {

@@ -317,6 +317,14 @@ public class UCrop {
 
         private final Bundle mOptionBundle;
 
+        public void setCircleBorderColor(@ColorInt int color) {
+            mOptionBundle.putInt(EXTRA_CIRCLE_BORDER_COLOR, color);
+        }
+
+        public void setCircleBorderWidth(float width) {
+            mOptionBundle.putFloat(EXTRA_CIRCLE_BORDER_WIDTH, width);
+        }
+
         public Options() {
             mOptionBundle = new Bundle();
         }
