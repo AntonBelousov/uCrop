@@ -3,12 +3,14 @@ package com.yalantis.ucrop.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.Region;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -69,6 +71,10 @@ public class OverlayView extends View {
     private int mCropRectMinSize;
     private int mCropRectCornerTouchAreaLineLength;
 
+    private int mCircleBorderColor = Color.WHITE;
+    private float mCircleBorderWidth;
+    private Paint mCircleBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+
     private OverlayViewChangeListener mCallback;
 
     private boolean mShouldSetupCropBounds;
@@ -77,6 +83,10 @@ public class OverlayView extends View {
         mTouchPointThreshold = getResources().getDimensionPixelSize(R.dimen.ucrop_default_crop_rect_corner_touch_threshold);
         mCropRectMinSize = getResources().getDimensionPixelSize(R.dimen.ucrop_default_crop_rect_min_size);
         mCropRectCornerTouchAreaLineLength = getResources().getDimensionPixelSize(R.dimen.ucrop_default_crop_rect_corner_touch_area_line_length);
+
+        // Recalculating 1dp into pixels for mCircleBorderWidth
+        mCircleBorderWidth = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 1f, getResources().getDisplayMetrics());
     }
 
     public OverlayView(Context context) {
@@ -273,6 +283,11 @@ public class OverlayView extends View {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN_MR2) {
             setLayerType(LAYER_TYPE_SOFTWARE, null);
         }
+
+        // Setting up the brush for the white stroke
+        mCircleBorderPaint.setColor(mCircleBorderColor);
+        mCircleBorderPaint.setStyle(Paint.Style.STROKE);
+        mCircleBorderPaint.setStrokeWidth(mCircleBorderWidth);
     }
 
     @Override
@@ -464,9 +479,34 @@ public class OverlayView extends View {
         canvas.restore();
 
         if (mCircleDimmedLayer) { // Draw 1px stroke to fix antialias
+            // The main circle
             canvas.drawCircle(mCropViewRect.centerX(), mCropViewRect.centerY(),
                     Math.min(mCropViewRect.width(), mCropViewRect.height()) / 2.f, mDimmedStrokePaint);
+
+            // White outline
+            canvas.drawCircle(mCropViewRect.centerX(), mCropViewRect.centerY(),
+                    Math.min(mCropViewRect.width(), mCropViewRect.height()) / 2.f, mCircleBorderPaint);
         }
+    }
+
+    /**
+     * For dynamic color change
+     * @param color
+     */
+    public void setCircleBorderColor(@ColorInt int color) {
+        mCircleBorderColor = color;
+        mCircleBorderPaint.setColor(color);
+        invalidate();
+    }
+
+    /**
+     * TTo dynamically change the thickness of the stroke
+     * @param width
+     */
+    public void setCircleBorderWidth(float width) {
+        mCircleBorderWidth = width;
+        mCircleBorderPaint.setStrokeWidth(width);
+        invalidate();
     }
 
     /**

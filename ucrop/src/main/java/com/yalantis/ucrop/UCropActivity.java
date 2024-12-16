@@ -3,6 +3,7 @@ package com.yalantis.ucrop;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Drawable;
@@ -283,6 +284,9 @@ public class UCropActivity extends AppCompatActivity {
             mGestureCropImageView.setMaxResultImageSizeX(maxSizeX);
             mGestureCropImageView.setMaxResultImageSizeY(maxSizeY);
         }
+
+        mOverlayView.setCircleBorderColor(intent.getIntExtra(UCrop.Options.EXTRA_CIRCLE_BORDER_COLOR, Color.WHITE));
+        mOverlayView.setCircleBorderWidth(intent.getFloatExtra(UCrop.Options.EXTRA_CIRCLE_BORDER_WIDTH, 2f));
     }
 
     private void setupViews(@NonNull Intent intent) {

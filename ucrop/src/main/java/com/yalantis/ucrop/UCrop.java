@@ -312,6 +312,8 @@ public class UCrop {
 
         public static final String EXTRA_UCROP_ROOT_VIEW_BACKGROUND_COLOR = EXTRA_PREFIX + ".UcropRootViewBackgroundColor";
 
+        public static final String EXTRA_CIRCLE_BORDER_COLOR = "com.yalantis.ucrop.CircleBorderColor";
+        public static final String EXTRA_CIRCLE_BORDER_WIDTH = "com.yalantis.ucrop.CircleBorderWidth";
 
         private final Bundle mOptionBundle;
 
